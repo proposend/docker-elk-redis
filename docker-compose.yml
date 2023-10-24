@@ -1,7 +1,6 @@
-version: '3.7'
+version: "3.7"
 
 services:
-
   # The 'setup' service runs a one-off script which initializes users inside
   # Elasticsearch — such as 'logstash_internal' and 'kibana_system' — with the
   # values of the passwords defined in the '.env' file. It also creates the
@@ -87,6 +86,7 @@ services:
       - elk
     depends_on:
       - elasticsearch
+      - redis
     restart: unless-stopped
 
   kibana:
@@ -104,7 +104,18 @@ services:
       - elk
     depends_on:
       - elasticsearch
+
+  redis:
+    build:
+      context: redis/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    image: redis:latest
     restart: unless-stopped
+    ports:
+      - 6379:6379
+    networks:
+      - elk
 
 networks:
   elk:
