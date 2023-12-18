@@ -1,4 +1,3 @@
-# https://www.docker.elastic.co/
 FROM redis
 
 # Add your logstash plugins setup here

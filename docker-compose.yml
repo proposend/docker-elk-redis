@@ -104,7 +104,7 @@ services:
       - elk
     depends_on:
       - elasticsearch
-
+    restart: unless-stopped
   redis:
     build:
       context: redis/
